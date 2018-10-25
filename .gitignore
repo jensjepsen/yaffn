@@ -1,0 +1,4 @@
+mnist_data
+stuff
+*.pyc
+.DS_Store
