@@ -2,6 +2,10 @@ import numpy as np
 from helpers import init
 
 class Module(object):
+    """
+        A super-class for all NN modules,
+        that holds parameters and accumulated gradients
+    """
 	def __init__(self):
 		self.params = {}
 		self.grads = {}
@@ -23,7 +27,19 @@ class Module(object):
 	def add_param(self,name,data):
 		self.params[name] += data
 
-	def forward(self):
+	def forward(self,input):
+	    """
+	        This method should be overridden by subclasses,
+	        to define the forward pass of the subclass.
+	    """
+		raise RuntimeError("All subclasses of Module must implement a forward method")
+	
+	def backward(self,input,grads):
+	    """
+	        This method should be overridden by subclasses,
+	        to define the backward pass of the subclass,
+	        i.e. calculate the gradients.
+	    """
 		raise RuntimeError("All subclasses of Module must implement a forward method")
 
 
@@ -62,6 +78,10 @@ class L2Loss(Module):
 		return (input[0] - input[1])
 
 class Sequence(object):
+    """
+        This class sequentially applies a number of Modules,
+        and handles backpropagation through those Modules.
+    """
 	def __init__(self,*modules):
 		self.modules = modules
 

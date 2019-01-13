@@ -44,6 +44,12 @@ def cross_entropy_loss_with_logits_grad(label,output):
 	return (output - temp)
 
 def train(epochs,batch_size,hidden_size,learning_rate):
+	"""
+	    Train a simple feed-forward network to classify MNIST digits,
+	    using vanilla SGD to minimize the categorical cross entropy between
+	    network outputs and ground truth labels.
+	"""
+	
 	ff = Sequence(
 		Linear(784,hidden_size),
 		ReLU(),
@@ -81,7 +87,7 @@ def train(epochs,batch_size,hidden_size,learning_rate):
 			output = ff.forward(input)
 			ff.backward(loss_grad(label,output))
 
-			if i > 0 and (i % batch_size == 0): 
+			if i > 0 and (i % batch_size == 0):
 				optim.step()
 
 			loss_sum += loss(label,output)
